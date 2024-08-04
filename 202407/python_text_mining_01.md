@@ -16,13 +16,14 @@
 - `자바` 가 설치되어 있어야 사용할 수 있다.
 - [[MAC 한국어 자연어처리 KoNLPy 설치]](https://z2soo.tistory.com/174)
 - [M1칩 Mac에서 KoNLPy 한국어 처리 파이썬 패키지 설치하기](https://velog.io/@yoonsy/M1%EC%B9%A9-Mac%EC%97%90-konlpy-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0)
+
 ### 02. 의존성 패키지란?
 - 어떤 패키지는 다른 패키지의 기능을 이용하기 때문에 다른 패키지를 먼저 설치해야 작동한다.
 - 이처럼 패키지가 의존하고 있는 패키지를 `의존성 패키지`라고 한다.
- ---
+ ```python
  pip install jpype1
  pip install konlpy
- ---
+ ```
 
 ## 텍스트 마이닝 시작
 ### 01. 연설문 불러오기
@@ -35,6 +36,7 @@ moon = open('../data/speech_moon.text', encoding = 'utf-8').read()
 - 특수문자, 한자, 공백 등은 분석 대상이 아니기 때문에 제거한다.
 - 문자 처리 패키지인 `re`의 `sub()`를 이용해 한글이 아닌 문자를 공백으로 교체한다.
 - [[Python] 정규표현식 (Regular Expression ; Regex)](https://cheris8.github.io/python/PY-Regex/)
+
 ```python
 import re  # 문자 처리 패키지
 
@@ -47,9 +49,11 @@ moon = re.sub("[^가-힣]", " ", moon)
 # 정규 표현식이란?
 # 특정한 규칙을 가진 문자열을 표현하는 언어이다.
 ```
+
 ### 03. 명사 추출하기
 - `konlpy.tag.Hannaum()`의 `nouns()`를 이용해서 명사를 추출한다.
 - 예시 코드
+
 ```python
 # hannanum 만들기
 import konlpy
@@ -61,6 +65,7 @@ hannanum.nouns("대한민국의 영토는 한반도와 그 부석도서로 한�
 ```python
 ['대한민국', '영토', '한반도', '부석도서']
 ```
+
 - 사용 코드
 ```python
 nouns = hannanum.nouns(moon)
@@ -76,6 +81,7 @@ nouns = hannanum.nouns(moon)
  '나뭇가지',
  .....(생략)]
 ```
+
 ### 04. 데이터 프레임으로 변경하기
 - 명사를 추출하고 출력 결과는 리스트 자료형이기 때문에 다루기 쉽도록 데이터 프레임으로 변환한다.
 ```python
@@ -92,15 +98,18 @@ df_word
 1411	우리나라
 1412	대통령
 ```
+
 ### 05. 단어 빈도표 만들기
 - 어떤 단어를 많이 사용 했는지 확인한다.
 - 한 글자로 된 단어는 의미가 없는 경우가 많기 때문에 제거한다.
 - 글자 수(count) column 을 추가한다.
+
 ```python
 # 글자 수 컬럼 추가
 df_word['count'] = df_word['word'].str.len()
 df_word
 ```
+
 ```python
 	
 word	count
